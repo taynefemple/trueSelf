@@ -3,6 +3,15 @@
   "name": "trueSelf",
   "version": "1.0",
   "description": "Replaces the text 'Ruby' with 'R.J.'",
+  "browser_action": {
+    "default_icon": {
+      "16": "images/flagSmall.png",
+      "48": "images/flagMedium.png",
+      "128": "images/flagLarge.png"
+    },
+    "default_title": "trueSelf",
+    "default_popup": "popup.html"
+  },
   "content_scripts": [
     {
       "matches": [
@@ -15,8 +24,8 @@
     }
   ],
   "icons": {
-    "16": "icon16.png",
-    "48": "icon48.png",
-    "128": "icon128.png"
+    "16": "images/flagSmall.png",
+    "48": "images/flagMedium.png",
+    "128": "images/flagLarge.png"
   }
 }
