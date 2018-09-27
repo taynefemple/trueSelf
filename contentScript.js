@@ -38,3 +38,9 @@ function handleText(textNode) {
   textNode.nodeValue = deadName;
 }
 
+// Event Handlers
+
+const toggle = document.getElementById('input');
+
+toggle.addEventListener('click', function () { console.log("HIT IT!!!") });
+
