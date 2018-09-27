@@ -1,3 +1,13 @@
+.name, .name-replace {
+  height: 34px;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.input-container {
+  display: flex;
+}
+
 /* The switch - the box around the slider */
 
 .switch {
