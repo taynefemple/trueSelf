@@ -1,6 +1,8 @@
+
 walk(document.body);
 
 function walk(node) {
+  // This function is the bizness -- walks the dom and swaps
   // I stole this function from here:
   // http://is.gd/mwZp7E
 
@@ -28,19 +30,16 @@ function walk(node) {
   }
 }
 
-function handleText(textNode) {
-  let deadName = textNode.nodeValue;
+// where the magic happens...
+function handleText(textNode, newName) {
+  let trueName = textNode.nodeValue;
 
-  deadName = deadName.replace(/\bRuby\b/g, "R.J.");
-  deadName = deadName.replace(/\bruby\b/g, "R.J.");
-  deadName = deadName.replace(/\bRUBY\b/g, "R.J.");
+  // newNameLower = settings.newName.toLowerCase();
+  // newNameUpper = settings.newName.toUpperCase();
 
-  textNode.nodeValue = deadName;
+  trueName = trueName.replace(/\bRuby\b/g, "R.J.");
+  trueName = trueName.replace(/\bruby\b/g, "R.J.");
+  trueName = trueName.replace(/\bRUBY\b/g, "R.J.");
+
+  textNode.nodeValue = trueName;
 }
-
-// Event Handlers
-
-const toggle = document.getElementById('input');
-
-toggle.addEventListener('click', function () { console.log("HIT IT!!!") });
-

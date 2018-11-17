@@ -1,4 +1,4 @@
-.name, .name-replace {
+.old-name, .new-name {
   height: 26px;
   border-radius: 26px;
   font-size: 15px;
@@ -11,7 +11,7 @@
 
 /* The switch - the box around the slider */
 
-.switch {
+.submit {
   position: relative;
   display: inline-block;
   width: 55px;
@@ -20,7 +20,7 @@
 
 /* Hide default HTML checkbox */
 
-.switch input {
+.submit input {
   display: none;
 }
 
