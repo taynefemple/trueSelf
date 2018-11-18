@@ -1,7 +1,5 @@
 
-walk(document.body);
-
-function walk(node) {
+const walk = (node) => {
   // This function is the bizness -- walks the dom and swaps
   // I stole this function from here:
   // http://is.gd/mwZp7E
@@ -31,15 +29,26 @@ function walk(node) {
 }
 
 // where the magic happens...
-function handleText(textNode, newName) {
+const handleText = (textNode) => {
   let trueName = textNode.nodeValue;
+  let newName;
+  let oldName;
 
-  // newNameLower = settings.newName.toLowerCase();
-  // newNameUpper = settings.newName.toUpperCase();
+  chrome.runtime.sendMessage({ action: 'getSettings' }, (settings) => {
+    newName = settings.newName;
+    oldName = settings.oldName;
+  })
 
-  trueName = trueName.replace(/\bRuby\b/g, "R.J.");
-  trueName = trueName.replace(/\bruby\b/g, "R.J.");
-  trueName = trueName.replace(/\bRUBY\b/g, "R.J.");
+  if (oldName) {
+    const oldNameLower = oldName.toLowerCase();
+    const oldNameUpper = oldName.toUpperCase();
+  }
+
+  trueName = trueName.replace(/\bRuby\b/g, 'R.J.');
+  trueName = trueName.replace(/\bruby\b/g, 'R.J.');
+  trueName = trueName.replace(/\bRUBY\b/g, 'R.J.');
 
   textNode.nodeValue = trueName;
 }
+
+walk(document.body);

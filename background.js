@@ -1,12 +1,12 @@
 
 var settings = {
-  oldName: 'Given Name',
-  newName: 'True Self',
+  oldName: '',
+  newName: '',
   enabled: true
 };
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  if (message.action == 'getSettings') {
+  if (message.action === 'getSettings') {
     sendResponse(settings)
   }
 });
