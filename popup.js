@@ -6,8 +6,19 @@ let settings;
 let close;
 
 chrome.runtime.sendMessage({ action: 'getSettings' }, (res) => {
-  settings = res
-})
+  settings = res;
+});
+
+const updateHandler = () => {
+  settings = {
+    oldName: oldName.value,
+    newName: newName.value,
+    enabled: true
+  };
+  background.settings.oldName = settings.oldName;
+  background.settings.newName = settings.newName;
+  chrome.storage.sync.set(settings);
+};
 
 const loadHandler = () => {
   oldName = document.querySelector('.old-name');
@@ -21,9 +32,8 @@ const loadHandler = () => {
   }, false);
   newName.value = background.settings.newName;
 
-  oldName.addEventListener('keyup', (event) => {
+  oldName.addEventListener('keyup', () => {
     updateHandler();
-    console.log('OLD NAME EVENT', event, 'GIVEN NAME', settings.oldName);
   });
   oldName.value = background.settings.oldName;
   submit.checked = background.settings.enabled;
@@ -56,16 +66,6 @@ const loadHandler = () => {
   close.addEventListener('click', () => window.close());
 }
 
-const updateHandler = () => {
-  settings = {
-    oldName: oldName.value,
-    newName: newName.value,
-    enabled: true
-  };
-  background.settings.oldName = settings.oldName;
-  background.settings.newName = settings.newName;
-  chrome.storage.sync.set(settings);
-};
 
 // init
 document.addEventListener('DOMContentLoaded', loadHandler);

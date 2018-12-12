@@ -5,13 +5,13 @@ var settings = {
   enabled: true
 };
 
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'getSettings') {
-    sendResponse(settings)
+    sendResponse(settings);
   }
 });
 
-chrome.storage.sync.get(settings, function (result) {
+chrome.storage.sync.get(settings, (result) => {
   if (result.oldName) {
     settings.oldName = result.oldName;
   }
