@@ -5,11 +5,6 @@ let background;
 let settings;
 let close;
 
-// is this necessary?
-chrome.runtime.sendMessage({ action: 'getSettings' }, (res) => {
-  settings = res;
-});
-
 const updateHandler = () => {
   settings = {
     oldName: oldName.value,
@@ -51,7 +46,6 @@ const loadHandler = () => {
   close = document.querySelector('.close');
   background = chrome.extension.getBackgroundPage();
 
-
   newName.addEventListener('keyup', () => onInputHandler(true), false);
   newName.value = background.settings.newName;
 
@@ -66,7 +60,3 @@ const loadHandler = () => {
 
 // init
 document.addEventListener('DOMContentLoaded', loadHandler);
-
-// this will be a browser action -- disable:
-// chrome.browserAction.setIcon({ path: `icon-disabled-full-size.jpg` });
-// settings.enabled = false
