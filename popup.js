@@ -52,7 +52,7 @@ const onInputHandler = (bool) => {
   } else {
     submit.checked = bool;
   }
-  showIcon(bool);
+  showIcon(submit.checked);
   updateHandler();
 };
 
