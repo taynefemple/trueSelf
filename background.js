@@ -2,7 +2,7 @@
 var settings = {
   oldName: '',
   newName: '',
-  enabled: true
+  enabled: false
 };
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -11,11 +11,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
-chrome.storage.sync.get(settings, (result) => {
-  if (result.oldName) {
-    settings.oldName = result.oldName;
+chrome.storage.sync.get(settings, (res) => {
+  if (res.oldName) {
+    settings.oldName = res.oldName;
   }
-  if (result.newName) {
-    settings.newName = result.newName;
+  if (res.newName) {
+    settings.newName = res.newName;
   }
 });

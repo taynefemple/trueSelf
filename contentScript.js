@@ -2,8 +2,8 @@ let newName;
 let oldName;
 
 chrome.runtime.sendMessage({ action: 'getSettings' }, (settings) => {
-  newName = settings.newName;
-  oldName = settings.oldName;
+  newName = settings.newName.trim();
+  oldName = settings.oldName.trim();
 })
 
 const walk = (node) => {

@@ -5,6 +5,12 @@ let background;
 let settings;
 let close;
 
+const refresh = () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.reload(tabs[0].id);
+  });
+}
+
 const updateHandler = () => {
   settings = {
     oldName: oldName.value,
@@ -17,8 +23,7 @@ const updateHandler = () => {
   chrome.storage.sync.set(settings);
 };
 
-const onInputHandler = (bool) => {
-  submit.checked = bool;
+const showIcon = (bool) => {
   if (bool) {
     chrome.browserAction.setIcon({
       path: {
@@ -30,12 +35,24 @@ const onInputHandler = (bool) => {
   } else {
     chrome.browserAction.setIcon({
       path: {
-        128: 'disabledIcon.png'
+        128: 'images/disabledIcon.png'
       }
     });
+  }
+};
+
+const onInputHandler = (bool) => {
+  if (!bool) {
     oldName.value = '';
     newName.value = '';
   }
+
+  if (!oldName.value || !newName.value) {
+    submit.checked = false;
+  } else {
+    submit.checked = bool;
+  }
+  showIcon(bool);
   updateHandler();
 };
 
@@ -52,10 +69,18 @@ const loadHandler = () => {
   oldName.addEventListener('keyup', () => onInputHandler(true), false);
   oldName.value = background.settings.oldName;
 
-  submit.addEventListener('click', () => onInputHandler(!!submit.checked));
+  submit.addEventListener('click', () => {
+    if (oldName.value && newName.value) {
+      refresh();
+    }
+    onInputHandler(!!submit.checked);
+  });
   submit.checked = background.settings.enabled;
 
-  close.addEventListener('click', () => window.close());
+  close.addEventListener('click', () => {
+    window.close();
+    refresh();
+  })
 }
 
 // init
