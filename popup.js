@@ -70,10 +70,8 @@ const loadHandler = () => {
   oldName.value = background.settings.oldName;
 
   submit.addEventListener('click', () => {
-    if (oldName.value && newName.value) {
-      refresh();
-    }
     onInputHandler(!!submit.checked);
+    refresh();
   });
   submit.checked = background.settings.enabled;
 

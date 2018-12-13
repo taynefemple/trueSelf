@@ -15,9 +15,7 @@
   ],
   "browser_action": {
     "default_icon": {
-      "16": "images/flagSmall.png",
-      "48": "images/flagMedium.png",
-      "128": "images/flagLarge.png"
+      "128": "images/disabledIcon.png"
     },
     "default_popup": "popup.html",
     "default_title": "trueSelf"
