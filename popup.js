@@ -15,7 +15,7 @@ const updateHandler = () => {
   settings = {
     oldName: oldName.value,
     newName: newName.value,
-    enabled: !!submit.checked
+    enabled: submit.checked
   };
   background.settings.oldName = settings.oldName;
   background.settings.newName = settings.newName;
@@ -50,7 +50,7 @@ const onInputHandler = (bool) => {
   if (!oldName.value || !newName.value) {
     submit.checked = false;
   } else {
-    submit.checked = bool;
+    submit.checked = true;
   }
   showIcon(submit.checked);
   updateHandler();
@@ -73,7 +73,8 @@ const loadHandler = () => {
     onInputHandler(!!submit.checked);
     refresh();
   });
-  submit.checked = background.settings.enabled;
+  submit.checked = oldName.value && newName.value;
+  showIcon(submit.checked);
 
   close.addEventListener('click', () => {
     window.close();

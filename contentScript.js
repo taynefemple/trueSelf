@@ -11,7 +11,8 @@ const walk = (node) => {
   // I stole this function from here:
   // http://is.gd/mwZp7E
 
-  let child, next;
+  let child;
+  let next;
 
   if (node.nodeName.toLowerCase() === 'input' || node.nodeName.toLowerCase() === 'textarea') {
     return;
