@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "True Self",
-  "version": "1.0",
+  "version": "0.0.0.1",
   "description": "Select a new name to display on web pages and become your True Self",
   "background": {
     "scripts": [
