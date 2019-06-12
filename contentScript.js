@@ -2,7 +2,6 @@ let newName;
 let oldName;
 
 chrome.runtime.sendMessage({ action: 'getSettings' }, (settings) => {
-  console.log('got Em!')
   newName = settings.newName.trim();
   oldName = settings.oldName.trim();
   walk(document.body);
