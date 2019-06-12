@@ -61,6 +61,7 @@ const loadHandler = () => {
   newName = document.querySelector('.new-name');
   submit = document.querySelector('.submit');
   close = document.querySelector('.close');
+
   background = chrome.extension.getBackgroundPage();
 
   newName.addEventListener('keyup', () => onInputHandler(true), false);
@@ -76,9 +77,19 @@ const loadHandler = () => {
   submit.checked = oldName.value && newName.value;
   showIcon(submit.checked);
 
-  close.addEventListener('click', () => {
+  const closeAndApplyChanges = () => {
     window.close();
     refresh();
+  }
+
+  close.addEventListener('click', () => {
+    closeAndApplyChanges();
+  })
+
+  document.addEventListener('keydown', (evt) => {
+    if (evt.code === 'Enter') {
+      closeAndApplyChanges();
+    }
   })
 }
 

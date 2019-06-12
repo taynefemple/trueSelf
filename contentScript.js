@@ -2,8 +2,10 @@ let newName;
 let oldName;
 
 chrome.runtime.sendMessage({ action: 'getSettings' }, (settings) => {
+  console.log('got Em!')
   newName = settings.newName.trim();
   oldName = settings.oldName.trim();
+  walk(document.body);
 })
 
 const walk = (node) => {
@@ -44,15 +46,3 @@ const handleText = (textNode) => {
   trueName = trueName.replace(regexp, newName);
   textNode.nodeValue = trueName;
 };
-
-const delayWalk = () => {
-  const waitOnSettings = () => {
-    if (oldName && newName) {
-      clearInterval(jsInitChecktimer);
-      walk(document.body);
-    }
-  }
-  const jsInitChecktimer = setInterval(waitOnSettings, 0);
-}
-
-window.addEventListener('load', delayWalk, false);
