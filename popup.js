@@ -23,7 +23,7 @@ const updateHandler = async () => {
     newName: newName.value,
     enabled: submit.checked
   };
-  await chrome.storage.sync.set({settings})
+  await chrome.storage.sync.set({ settings })
 };
 
 const onInputHandler = async (isChecked) => {
