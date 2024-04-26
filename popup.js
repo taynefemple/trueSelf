@@ -1,7 +1,6 @@
-let oldName;
+let deadName;
 let newName;
 let submit;
-let background;
 let settings;
 let close;
 
@@ -11,71 +10,56 @@ const refresh = () => {
   });
 }
 
-const updateHandler = () => {
+const getSettingsFromStorage = async () => {
+  const { settings } = await chrome.storage.sync.get(['settings'])
+  newName.value = settings?.newName || '';
+  deadName.value = settings?.deadName || '';
+  submit.checked = settings?.enabled || false;
+}
+
+const updateHandler = async () => {
   settings = {
-    oldName: oldName.value,
+    deadName: deadName.value,
     newName: newName.value,
     enabled: submit.checked
   };
-  background.settings.oldName = settings.oldName;
-  background.settings.newName = settings.newName;
-  background.settings.enabled = settings.enabled;
-  chrome.storage.sync.set(settings);
+  await chrome.storage.sync.set({settings})
 };
 
-const showIcon = (bool) => {
-  if (bool) {
-    chrome.browserAction.setIcon({
-      path: {
-        16: 'images/flagSmall.png',
-        48: 'images/flagMedium.png',
-        128: 'images/flagLarge.png'
-      }
-    });
-  } else {
-    chrome.browserAction.setIcon({
-      path: {
-        128: 'images/disabledIcon.png'
-      }
-    });
-  }
-};
-
-const onInputHandler = (bool) => {
-  if (!bool) {
-    oldName.value = '';
+const onInputHandler = async (isChecked) => {
+  // clear fields if slider is deactivated
+  if (!isChecked) {
+    deadName.value = '';
     newName.value = '';
   }
-
-  if (!oldName.value || !newName.value) {
+  // automatically turn on slider if fields are populated
+  if (!deadName.value || !newName.value) {
     submit.checked = false;
   } else {
     submit.checked = true;
   }
-  showIcon(submit.checked);
-  updateHandler();
+
+  // service worker handles icon changes for popup and contentScript
+  await chrome.runtime.sendMessage({ action: 'showIcon', value: submit.checked });
+
+  await updateHandler();
 };
 
-const loadHandler = () => {
-  oldName = document.querySelector('.old-name');
+const loadHandler = async () => {
+  deadName = document.querySelector('.dead-name');
   newName = document.querySelector('.new-name');
   submit = document.querySelector('.submit');
   close = document.querySelector('.close');
 
-  background = chrome.extension.getBackgroundPage();
+  // now that variables are set, pull in values from storage and assign to elements
+  await getSettingsFromStorage();
 
   newName.addEventListener('keyup', () => onInputHandler(true), false);
-  newName.value = background.settings.newName;
-
-  oldName.addEventListener('keyup', () => onInputHandler(true), false);
-  oldName.value = background.settings.oldName;
-
-  submit.addEventListener('click', () => {
-    onInputHandler(!!submit.checked);
+  deadName.addEventListener('keyup', () => onInputHandler(true), false);
+  submit.addEventListener('click', async () => {
+    await onInputHandler(!!submit.checked);
     refresh();
   });
-  submit.checked = oldName.value && newName.value;
-  showIcon(submit.checked);
 
   const closeAndApplyChanges = () => {
     window.close();
